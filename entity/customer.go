@@ -1,4 +1,4 @@
-package model
+package entity
 
 import (
 	"golang.org/x/crypto/bcrypt"
@@ -9,6 +9,8 @@ type Customer struct {
 	gorm.Model
 	Username string `json:"username" gorm:"unique"`
 	Password string `json:"password"`
+	Balance  int `json:"balance" gorm:"default:0"`
+	IsLogin bool `json:"isLogin" gorm:"default:false"`
 }
 
 func (customer *Customer) HashPassword(password string) error {

@@ -1,12 +1,12 @@
 package controller
 import (
 	"mnc-authentication/database"
-	"mnc-authentication/model"
+	"mnc-authentication/entity"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
 func RegisterCustomer(context *gin.Context) {
-	var customer model.Customer
+	var customer entity.Customer
 	if err := context.ShouldBindJSON(&customer); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		context.Abort()

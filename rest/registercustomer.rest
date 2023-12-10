@@ -1,7 +1,7 @@
 @host = localhost:8080
 
-// Generate JWT
-POST http://{{host}}/api/token HTTP/1.1
+// Register User
+POST http://{{host}}/api/customer/register HTTP/1.1
 content-type: application/json
     
 {

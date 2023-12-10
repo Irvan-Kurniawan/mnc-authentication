@@ -2,7 +2,7 @@ package database
 
 import (
 	"log"
-	"mnc-authentication/model"
+	"mnc-authentication/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,6 +20,6 @@ func Connect(connectionString string) {
 	log.Println("Connected to Database!")
 }
 func Migrate() {
-	Instance.AutoMigrate(&model.Customer{})
+	Instance.AutoMigrate(&entity.Customer{})
 	log.Println("Database Migration Completed!")
 }
