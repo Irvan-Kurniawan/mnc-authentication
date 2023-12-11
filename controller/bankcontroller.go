@@ -3,7 +3,6 @@ package controller
 import (
 	"errors"
 	"fmt"
-	// "log"
 	"mnc-authentication/auth"
 	"mnc-authentication/database"
 	"mnc-authentication/entity"
@@ -25,7 +24,11 @@ func Topup(context *gin.Context) {
 		context.Abort()
 		return
 	}
-	
+	if request.Balance<=0{
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Topup nominal must be larger than 0"})
+		context.Abort()
+		return
+	}
 	tokenString := context.GetHeader("Authorization")
 	if tokenString == "" {
 		context.JSON(401, gin.H{"error": "request does not contain an access token"})
@@ -42,7 +45,8 @@ func Topup(context *gin.Context) {
 
 	logged := database.Instance.Where("username = ?", username).First(&user)
 	if logged.Error != nil {
-		err = errors.New("user not logged in")
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "User not logged in"})
+		context.Abort()
 		return
 	}
 	user.Balance+=request.Balance
@@ -52,6 +56,7 @@ func Topup(context *gin.Context) {
 		context.Abort()
 		return
 	}
+	RegisterHistoryTopup(context,user.Username,request.Balance)
 	balance := fmt.Sprintf("Customer %v has topped up Rp. %v",user.Username,request.Balance)
 	context.JSON(http.StatusOK, gin.H{"message": balance})
 }
@@ -87,7 +92,8 @@ func Transfer(context *gin.Context) {
 
 	logged := database.Instance.Where("username = ?", username).First(&user)
 	if logged.Error != nil {
-		err = errors.New("user not logged in")
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "user not logged in"})
+		context.Abort()
 		return
 	}
 	logged2 := database.Instance.Where("username = ?", request.Target).First(&target)
@@ -120,7 +126,7 @@ func Transfer(context *gin.Context) {
 		context.Abort()
 		return
 	}
-
+	RegisterHistoryTransfer(context,user.Username,request.Balance)
 	balance := fmt.Sprintf("Customer %v has transferred Rp. %v to customer %v",user.Username,request.Balance,target.Username)
 	context.JSON(http.StatusOK, gin.H{"message": balance})
 }

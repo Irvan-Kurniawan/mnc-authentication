@@ -3,10 +3,10 @@
 // Access a Secured API Endpoint
 POST http://{{host}}/api/bank/transfer HTTP/1.1
 content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzAyMzAwOTkzfQ.P21Q4AHBvtSPocNOWXNHEMGQmp9qgYW5hk8CXTZ-5Dk
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzAyMzA1MjY4fQ.Z9ImkusGXrSUSqDpfwQi_mV_xD1pchMph45fNTnihJU
 
 {
     "target" : "customer2",
-    "balance": 10
+    "balance": 100
 }
 ###

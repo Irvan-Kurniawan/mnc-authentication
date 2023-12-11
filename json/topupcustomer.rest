@@ -2,7 +2,7 @@
 
 // Access a Secured API Endpoint
 POST http://{{host}}/api/bank/topup HTTP/1.1
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzAyMjk5NTU3fQ.JRulcWzIf6hoklSKomNHzOxKpjccziKiTM8RcsC469w
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzAyMzA1MjY4fQ.Z9ImkusGXrSUSqDpfwQi_mV_xD1pchMph45fNTnihJU
 content-type: application/json
 
 {

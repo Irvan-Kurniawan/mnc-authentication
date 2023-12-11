@@ -12,8 +12,13 @@ func RegisterCustomer(context *gin.Context) {
 		context.Abort()
 		return
 	}
-	if err := customer.HashPassword(customer.Password); err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if customer.Username==""{
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Username must not be empty"})
+		context.Abort()
+		return
+	}
+	if customer.Password==""{
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Password must not be empty"})
 		context.Abort()
 		return
 	}
@@ -23,5 +28,6 @@ func RegisterCustomer(context *gin.Context) {
 		context.Abort()
 		return
 	}
+	RegisterHistoryRegister(context,customer.Username)
 	context.JSON(http.StatusCreated, gin.H{"customerId": customer.ID, "username": customer.Username})
 }

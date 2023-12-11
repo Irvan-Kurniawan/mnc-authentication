@@ -7,8 +7,8 @@ import (
 
 type Customer struct {
 	gorm.Model
-	Username string `json:"username" gorm:"unique"`
-	Password string `json:"password"`
+	Username string `json:"username" gorm:"unique;not null"`
+	Password string `json:"password gorm:"not null"`
 	Balance  int `json:"balance" gorm:"default:0"`
 	IsLogin bool `json:"isLogin" gorm:"default:false"`
 }

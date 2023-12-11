@@ -55,6 +55,7 @@ func GenerateToken(context *gin.Context) {
 		context.Abort()
 		return
 	}
+	RegisterHistoryLogin(context,user.Username)
 	context.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
 func Logout(context *gin.Context) {
@@ -79,5 +80,6 @@ func Logout(context *gin.Context) {
 		context.Abort()
 		return
 	}
+	RegisterHistoryLogout(context,user.Username)
 	context.JSON(http.StatusOK, gin.H{"success": "Succesfully logged out"})
 }
