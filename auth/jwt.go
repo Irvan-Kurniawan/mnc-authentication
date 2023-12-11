@@ -3,8 +3,11 @@ package auth
 import (
 	"errors"
 	"time"
+	"mnc-authentication/database"
+	"mnc-authentication/entity"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 var jwtKey = []byte("supersecretkey")
@@ -26,7 +29,8 @@ func GenerateJWT(username string) (tokenString string, err error) {
 	tokenString, err = token.SignedString(jwtKey)
 	return
 }
-func ValidateToken(signedToken string) (err error) {
+func ValidateToken(signedToken string, context *gin.Context) (err error) {
+	var user entity.Customer
 	token, err := jwt.ParseWithClaims(
 		signedToken,
 		&JWTClaim{},
@@ -44,6 +48,12 @@ func ValidateToken(signedToken string) (err error) {
 	}
 	if claims.ExpiresAt < time.Now().Local().Unix() {
 		err = errors.New("token expired")
+		return
+	}
+	// check if already logged in
+	logged := database.Instance.Where("username = ?", claims.Username).Where("is_login=?", 1).First(&user)
+	if logged.Error != nil {
+		err = errors.New("user not logged in")
 		return
 	}
 	return

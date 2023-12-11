@@ -6,6 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type TokenRequest struct {
+	Username string `json:"username"`
+}
 func Auth() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		tokenString := context.GetHeader("Authorization")
@@ -14,12 +17,13 @@ func Auth() gin.HandlerFunc {
 			context.Abort()
 			return
 		}
-		err := auth.ValidateToken(tokenString)
+		err := auth.ValidateToken(tokenString, context)
 		if err != nil {
 			context.JSON(401, gin.H{"error": err.Error()})
 			context.Abort()
 			return
 		}
+		
 		context.Next()
 	}
 }
