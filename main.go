@@ -24,9 +24,10 @@ func initRouter() *gin.Engine {
 		api.POST("/login", controller.GenerateToken)
 		api.POST("/customer/register", controller.RegisterCustomer)
 		api.POST("/logout", controller.Logout)
-		secured := api.Group("/secured").Use(middleware.Auth())
+		bank := api.Group("/bank").Use(middleware.Auth())
 		{
-			secured.GET("/ping", controller.Ping)
+			bank.POST("/topup", controller.Topup)
+			bank.POST("/transfer", controller.Transfer)
 		}
 	}
 	return router

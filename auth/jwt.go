@@ -58,3 +58,22 @@ func ValidateToken(signedToken string, context *gin.Context) (err error) {
 	}
 	return
 }
+
+func GetUsername(signedToken string, context *gin.Context) (username string,err error) {
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&JWTClaim{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(jwtKey), nil
+		},
+	)
+	if err != nil {
+		return
+	}
+	claims, ok := token.Claims.(*JWTClaim)
+	if !ok {
+		err = errors.New("couldn't parse claims")
+		return
+	}
+	return claims.Username, err
+}

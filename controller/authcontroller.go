@@ -25,7 +25,7 @@ func GenerateToken(context *gin.Context) {
 	// check if username exists and password is correct
 	record := database.Instance.Where("username = ?", request.Username).First(&user)
 	if record.Error != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": record.Error.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Customer does not exist"})
 		context.Abort()
 		return
 	}
